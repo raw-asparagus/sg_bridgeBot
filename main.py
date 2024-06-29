@@ -1,14 +1,27 @@
-from game.deck import Deck
-from game.player import Player
+from game import SetupPhase, BiddingPhase, GamePhase
 
 def main():
-    deck = Deck()
-    hands = deck.deal(4)
-    players = [Player(hand) for hand in hands]
+    player_names = ["Alice", "Bob", "Charlie", "Diana"]
+    
+    # Initialize the Setup Phase and deal cards
+    setup_game = SetupPhase(player_names)
+    setup_game.shuffle_and_deal()
 
-    for index, player in enumerate(players, start=1):
-        points = player.calculate_points()
-        print(f"Player {index}'s hand: {[str(card) for card in player.hand]} - Points: {points}")
+    # Initialize the Bidding Phase using the setup phase results
+    bidding_game = BiddingPhase(setup_game)
+    bidding_game.start_bidding()
+
+    # Check if a valid bidding result was obtained
+    if bidding_game.trump_bidder is None:
+        print("Bidding did not result in a trump bidder, game cannot proceed.")
+        return
+
+    # Select partner based on the bidding results
+    bidding_game.select_partner(bidding_game.trump_bidder)
+
+    # Initialize the Game Phase using the BiddingPhase object
+    game_phase = GamePhase(bidding_game)
+    game_phase.play_game()
 
 if __name__ == "__main__":
     main()
