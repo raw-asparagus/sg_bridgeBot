@@ -1,4 +1,5 @@
-from .core import Card, Deck, Player, BaseGame
+from .core import Deck
+from .setup import BaseGame
 
 class RoundSet():
     """

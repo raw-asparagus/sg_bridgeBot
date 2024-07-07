@@ -1,5 +1,6 @@
 #   Import classes from submodules to make them available at the package level
-from .core import Card, Deck, Player, BaseGame, SetupPhase
+from .core import Card, Deck, Player
+from .setup import BaseGame, SetupPhase
 from .bidding import BiddingPhase
 from .game import GamePhase
 
@@ -9,6 +10,7 @@ __all__ = [
     "Deck",
     "Player",
     "BaseGame",
+    "SetupPhase",
     "BiddingPhase",
     "GamePhase"
 ]
