@@ -1,21 +1,27 @@
 #   models/Card.py
-
 from bson.objectid import ObjectId
 from utils import get_collection
 from game import Card, Deck
 
-class CardModel:
+class CardModelMeta(type):
     """
-    Attributes:
+    Metaclass to handle database initialization and collection setup.
+
+    Attribute:
         collection (Collection):    The retrieved MongoDB collection.
     """
-    def __init__(self, collection_name='cards'):
-        self.collection = get_collection(collection_name)
-        #   Check if the collection is empty, if so initialize the deck
-        if self.collection.count_documents({}) == 0:
-            self.initialize_deck()
+    def __init__(cls, name, bases, dct):
+        super().__init__(name, bases, dct)
+        cls.collection = get_collection('cards')
+        if cls.collection.count_documents({}) == 0:
+            cls.initialize_deck()
 
-    def create_card(self, suit, rank):
+class CardModel(metaclass=CardModelMeta):
+    def __init__(self):
+        pass
+
+    @classmethod
+    def create_card(cls, suit, rank):
         """
         Creates a card document in the collection.
 
@@ -27,9 +33,10 @@ class CardModel:
             'suit': suit,
             'rank': rank
         }
-        self.collection.insert_one(card)
+        cls.collection.insert_one(card)
 
-    def initialize_deck(self):
+    @classmethod
+    def initialize_deck(cls):
         """
         Initializes the deck with 52 cards if the collection is empty.
 
@@ -37,20 +44,22 @@ class CardModel:
         """
         for suit in Deck.SUITS:
             for rank in Deck.RANKS:
-                self.create_card(suit, rank)
+                cls.create_card(suit, rank)
 
-    def get_all_cards(self):
+    @classmethod
+    def get_all_cards(cls):
         """
         Retrieves all cards from the collection.
 
         Returns:
             A list of card documents.
         """
-        cards = self.collection.find({})
+        cards = cls.collection.find({})
         return [ Card(card['_id'], card['suit'], card['rank'])
                 for card in cards ]
 
-    def get_card(self, suit, rank):
+    @classmethod
+    def get_card(cls, suit, rank):
         """
         Retrieves a specific card from the collection based on suit and rank.
 
@@ -61,12 +70,13 @@ class CardModel:
         Returns:
             The Card object or None if not found.
         """
-        card = self.collection.find_one({'suit': suit, 'rank': rank})
+        card = cls.collection.find_one({'suit': suit, 'rank': rank})
         if card:
             return Card(card['suit'], card['rank'], card['_id'])
         return None
 
-    def get_card_by_id(self, card_id):
+    @classmethod
+    def get_card_by_id(cls, card_id):
         """
         Retrieves a specific card from the collection based on its `_id`.
 
@@ -76,7 +86,7 @@ class CardModel:
         Returns:
             The Card object or None if not found.
         """
-        card = self.collection.find_one({'_id': ObjectId(card_id)})
+        card = cls.collection.find_one({'_id': ObjectId(card_id)})
         if card:
             return Card(card['suit'], card['rank'], card['_id'])
         return None

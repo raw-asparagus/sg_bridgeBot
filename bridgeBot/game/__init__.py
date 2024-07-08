@@ -1,16 +1,12 @@
-#   Import classes from submodules to make them available at the package level
+#   game/__init__.py
+
 from .core import Card, Deck, Player
 from .setup import BaseGame, SetupPhase
 from .bidding import BiddingPhase
 from .game import GamePhase
 
-#   Explicitly define classes available to import from the package
 __all__ = [
-    "Card",
-    "Deck",
-    "Player",
-    "BaseGame",
-    "SetupPhase",
-    "BiddingPhase",
-    "GamePhase"
+    "Card", "Deck", "Player",
+    "BaseGame", "SetupPhase",
+    "BiddingPhase", "GamePhase"
 ]

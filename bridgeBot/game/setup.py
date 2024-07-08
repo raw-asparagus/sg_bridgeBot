@@ -12,8 +12,7 @@ class BaseGame:
         players (list of Player):   The list of players in the game.
     """
     def __init__(self, player_names):
-        card_model = CardModel()
-        cards = card_model.get_all_cards()
+        cards = CardModel.get_all_cards()
         self.deck = Deck(cards)
         self.players = [ Player(name, i + 1)
                         for i, name in enumerate(player_names) ]

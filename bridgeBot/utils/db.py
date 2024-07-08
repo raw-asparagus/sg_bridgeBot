@@ -1,5 +1,4 @@
 #   utils/db.py
-
 from pymongo import MongoClient
 from .config import Config
 
