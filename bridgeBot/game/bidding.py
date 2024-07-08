@@ -1,3 +1,4 @@
+#   game/bidding.py
 from .core import Deck
 from .setup import BaseGame
 
@@ -29,7 +30,7 @@ class BiddingPhase(BaseGame):
         self.partnership = {}
 
     def start_bidding(self):
-        """Executes the bidding process until three players have passed."""
+        """ Executes the bidding process until three players have passed. """
         while self.pass_count < 3:
             for player in self.players:
                 if self.active[player]:
@@ -129,13 +130,13 @@ Select a partner card:')
                 i += 1
 
         # Input selection of the card index
-        partner_card_index = int(input("\nEnter the number of the card to " \
+        partner_card_index = int(input('\nEnter the number of the card to ' \
                                        "select as your partner's card: ")) - 1
         partner_card = available_cards[partner_card_index]
 
         # Display the chosen partner card
-        print(f"You have selected {partner_card}. The owner of {partner_card} \
-will be your partner!\n")
+        print(f'You have selected {partner_card}. The owner of {partner_card} \
+will be your partner!\n')
 
         # Find the owner of the partner card and establish partnership
         partner_player = None

@@ -16,6 +16,8 @@ class CardModelMeta(type):
         if cls.collection.count_documents({}) == 0:
             cls.initialize_deck()
 
+
+
 class CardModel(metaclass=CardModelMeta):
     def __init__(self):
         pass
@@ -23,7 +25,7 @@ class CardModel(metaclass=CardModelMeta):
     @classmethod
     def create_card(cls, suit, rank):
         """
-        Creates a card document in the collection.
+        Inserts a card document in the collection.
 
         Arguments:
             suit (str):     The suit of the card.
@@ -52,11 +54,27 @@ class CardModel(metaclass=CardModelMeta):
         Retrieves all cards from the collection.
 
         Returns:
-            A list of card documents.
+            A list of Card objects of each card document.
         """
         cards = cls.collection.find({})
         return [ Card(card['_id'], card['suit'], card['rank'])
                 for card in cards ]
+
+    @classmethod
+    def get_card_by_id(cls, card_id):
+        """
+        Retrieves a specific card from the collection based on its `_id`.
+
+        Arguments:
+            card_id (ObjectId):     The `_id` of the card to retrieve.
+
+        Returns:
+            The Card object or None if not found.
+        """
+        card = cls.collection.find_one({'_id': ObjectId(card_id)})
+        if card:
+            return Card(card['suit'], card['rank'], card['_id'])
+        return None
 
     @classmethod
     def get_card(cls, suit, rank):
@@ -71,22 +89,6 @@ class CardModel(metaclass=CardModelMeta):
             The Card object or None if not found.
         """
         card = cls.collection.find_one({'suit': suit, 'rank': rank})
-        if card:
-            return Card(card['suit'], card['rank'], card['_id'])
-        return None
-
-    @classmethod
-    def get_card_by_id(cls, card_id):
-        """
-        Retrieves a specific card from the collection based on its `_id`.
-
-        Arguments:
-            card_id (ObjectId):     The `_id` of the card to retrieve.
-
-        Returns:
-            The Card object or None if not found.
-        """
-        card = cls.collection.find_one({'_id': ObjectId(card_id)})
         if card:
             return Card(card['suit'], card['rank'], card['_id'])
         return None

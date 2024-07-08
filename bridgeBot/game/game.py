@@ -1,3 +1,4 @@
+#   game/game.py
 from .core import Deck
 from .setup import BaseGame
 
@@ -72,12 +73,12 @@ class GamePhase(BaseGame):
             current_player = self.players[(leader_index + offset) % len(self.players)]
             card_played = self.prompt_player_for_card(current_player, current_set)
             current_set.append((current_player, card_played))
-            print(f"{current_player.name} plays {card_played}")
+            print(f'{current_player.name} plays {card_played}')
 
         self.set_winner = self.resolve_set(current_set)
         self.sets.append(current_set)
         current_player.sets_won.append(current_set)
-        print(f"\n{self.set_winner.name} wins the set with {[ f"{pair[0].name, pair[1]}" for pair in current_set ]}\n")
+        print(f'\n{self.set_winner.name} wins the set with {[ f'{pair[0].name, pair[1]}' for pair in current_set ]}\n')
         #   Display card that won the set
 
 
@@ -115,10 +116,10 @@ class GamePhase(BaseGame):
         # Display the legal cards for player to choose from
         print(f"\n{player.name}'s turn to play. Legal cards to play:")
         for index, card in enumerate(hand, start=1):
-            print(f"{index}: {card}")
+            print(f'{index}: {card}')
 
         # Get player input for card selection
-        card_index = int(input("Enter the number of the card you choose to play: ")) - 1
+        card_index = int(input('Enter the number of the card you choose to play: ')) - 1
         chosen_card = hand[card_index]
 
         # Remove the chosen card from player's hand
@@ -164,9 +165,9 @@ class GamePhase(BaseGame):
             bool: True if the game is over, otherwise False.
         """
         for player in self.players:
-            print(f"{player.name}: {len(player.sets_won) + len(self.partnership[player].sets_won)}/{player.sets_threshold}", end="\t")
+            print(f'{player.name}: {len(player.sets_won) + len(self.partnership[player].sets_won)}/{player.sets_threshold}', end='\t')
         
-        print("\n\n" + "-" * 10 + "\n")
+        print('\n\n' + '-' * 10 + '\n')
 
         for player in self.players:
             if len(player.sets_won) + len(self.partnership[player].sets_won) == player.sets_threshold:

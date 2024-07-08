@@ -1,5 +1,4 @@
 #   game/core.py
-
 import random
 
 class Card:
@@ -18,8 +17,8 @@ class Card:
         self.rank = rank
 
     def __repr__(self):
-        """Returns a string representation of the card."""
-        return f"{self.rank} of {self.suit}"
+        """ Returns a string representation of the card. """
+        return f'{self.rank} of {self.suit}'
 
 
 
@@ -39,11 +38,11 @@ class Deck:
              'King', 'Ace']
 
     def __init__(self, cards):
-        """Initializes a new deck of 52 cards."""
+        """ Initializes a new deck of 52 cards. """
         self.cards = cards
 
     def shuffle(self):
-        """Shuffles the deck in place."""
+        """ Shuffles the deck in place. """
         random.shuffle(self.cards)
 
     def deal(self, n_hands=4):
@@ -83,6 +82,7 @@ class Player:
 
     Attributes:
         name (str):                         The name of the player.
+        telegram_id (str):                  The telegram_id of the player.
         order (int):                        The order of the player in the game
                                             (1st -> 1, 2nd -> 2, etc.).
         hand (list of Card):                The cards currently held by the
@@ -91,15 +91,16 @@ class Player:
         sets_threshold (int):               The number of sets to possess to win
                                             the game.
     """
-    def __init__(self, name, order):
-        self.name = name
+    def __init__(self, telegram_id, order):
+        self.name = None
+        self.telegram_id = telegram_id
         self.order = order
         self.hand = []
         self.sets_won = []
         self.sets_threshold = None
 
     def receive_hand(self, cards):
-        """Receives a list of cards as the player's hand."""
+        """ Receives a list of cards as the player's hand. """
         self.hand = cards
 
     def hand_value(self):

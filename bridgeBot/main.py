@@ -1,9 +1,8 @@
 #   main.py
-
 from game import SetupPhase, BiddingPhase, GamePhase
 
 def main():
-    player_names = ["Alice", "Bob", "Charlie", "Diana"]
+    player_names = ['Alice', 'Bob', 'Charlie', 'Diana']
     
     #   Initialize the Setup Phase and deal cards
     setup_game = SetupPhase(player_names)
@@ -15,7 +14,7 @@ def main():
 
     #   Check if a valid bidding result was obtained
     if bidding_game.trump_bidder is None:
-        print("Bidding did not result in a trump bidder, game cannot proceed.")
+        print('Bidding did not result in a trump bidder, game cannot proceed.')
         return  #   Option to start another game?
 
     #   Select partner based on the bidding results
@@ -25,5 +24,5 @@ def main():
     game_phase = GamePhase(bidding_game)
     game_phase.play_game()
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
